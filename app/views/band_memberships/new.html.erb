@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class='mx-auto col-sm-12 col-md-8 col-lg-5 px-sm-0 mt-3'>
+     <h1><%= @band.band_name %></h1>
+
+     <%= form_with(model: @band_membership, url: band_band_memberships_path(@band), local: true) do |f| %>
+       <div class="form-group">
+         <%= f.label :user_id, "メンバー" %>
+         <%= f.collection_select :user_id, User.all, :id, :name, { prompt: "メンバーを選択してください" }, class: 'form-control' %>
+       </div>
+
+       <div class="form-group">
+         <%= f.label :instrument, "楽器" %>
+         <%= f.select :instrument, Band::INSTRUMENTS, { prompt: "楽器を選択してください" }, class: 'form-control' %>
+       </div>
+
+       <%= f.submit 'バンドメンバーを追加', class: 'btn btn-primary' %>
+     <% end %>
+    </div>
+  </div>
+</div>

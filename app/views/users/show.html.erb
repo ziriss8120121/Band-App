@@ -1,0 +1,73 @@
+<main>
+  <div class='container px-5 px-sm-0'>
+    <div class='row mt-3'>
+      <!-- ユーザー情報 -->
+      <div class='col-md-3'>
+        <!-- ユーザー画像 -->
+        <div>
+        <%= attachment_image_tag @user, :profile_image, format: 'jpeg', fallback: 'default-image.jpg', size: '80x80', style: 'border-radius: 50%;' %>
+         <% if @user == current_user %>
+          <%= link_to edit_user_path(@user), class: "btn btn-outline-secondary mt-5 ml-3" do %>
+           <i class="fas fa-user-cog"></i>
+          <% end %>
+         <% end %>
+         
+        <table class='table mt-3'>
+          <tr>
+            <td class="text-center"><%= @user.name %></td>
+          </tr>
+          <tr>
+           <td><%= @user.introduction %></td>
+          </tr>
+        </table>
+        </div>
+        <!-- 新しいバンド作成フォーム -->
+        <div class='row mt-4'>
+          <h2 class="mt-3 mb-3 pl-3">New Band</h2>
+          <%= form_for @band do |f| %>
+            <div class="form-group">
+              <%= f.label :band_name, "バンド名" %>
+              <%= f.text_field :band_name, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :song_name, "曲名" %>
+              <%= f.text_field :song_name, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= f.label :special_notes, "特記事項" %>
+              <%= f.text_area :special_notes, class: 'form-control' %>
+            </div>
+
+            <%= f.submit 'バンドを作成', class: 'btn btn-primary float-right' %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- バンド情報 -->
+      <div class='col-md-8 offset-md-1 text-center'>
+        <h2 style="font-family: 'Times New Roman', serif;">My Bands</h2>
+        <% if @user.bands.present? %>
+          <table class='table table-hover table-inverse'>
+            <tbody>
+              <% @user.bands.each do |band| %>
+                <tr>
+                  <td>
+                  <%= link_to band_path(band) do %>
+                   <%= band.band_name %>
+                  <% end %><!-- 他のカラムがあればここに追加 -->
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="alert alert-info" role="alert" style="font-style: italic;">
+            No band
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</main>

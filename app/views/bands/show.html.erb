@@ -1,0 +1,42 @@
+<div class="container">
+<div class="card mt-5">
+  <div class="card-body">
+    <dl class="row">
+      
+      <dt class="col-sm-3">バンド名：</dt>
+      <dd class="col-sm-4"><strong><%= @band.band_name %></strong></dd>
+      <div class="col-sm-5">
+        <%= link_to "バンドを削除", band_path(@band), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger float-right" %>
+      </div>
+      
+      <dt class="col-sm-3">曲名：</dt>
+      <dd class="col-sm-9"><%= @band.song_name %></dd>
+      
+      <dt class="col-sm-3">特記事項：</dt>
+      <dd class="col-sm-9"><%= @band.special_notes %></dd>
+    </dl>
+
+    <h2>所属メンバー</h2>
+    <ul class="list-group">
+      <% if @band.band_memberships.present? %>
+       <% @band.band_memberships.each do |membership| %>
+         <li class="list-group-item">
+           <%= attachment_image_tag membership.user, :profile_image, format: 'jpeg', fallback: 'default-image.jpg', size: '30x30', style: 'border-radius: 50%;' %>
+           &nbsp;
+           <%= membership.user.name %>（楽器: <%= membership.instrument %>)
+           <%= link_to "削除", band_band_membership_path(@band, membership), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-danger btn-sm float-right" %>
+         </li>
+       <% end %>
+      <% else %>
+        <li class="list-group-item">メンバーはいません</li>
+      <% end %>
+    </ul>
+
+
+    <div class="text-center mt-3">
+      <%= link_to "バンドメンバーを追加", new_band_band_membership_path(@band), class: "btn btn-primary" %>
+      <%= link_to "バンド一覧", bands_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>
+</div>
